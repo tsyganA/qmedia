@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Обратная связь</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <style>
+            body {
+                background-color: #f8f9fa;
+                font-family: Arial, sans-serif;
+            }
+            .form-container {
+                max-width: 600px;
+                margin: 50px auto;
+                background: #ffffff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .form-container h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+                color: #333;
+            }
+            .form-control:focus {
+                box-shadow: none;
+                border-color: #007bff;
+            }
+            .btn-primary {
+                background-color: #007bff;
+                border: none;
+            }
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+            .alert-success {
+                margin-top: 20px;
+            }
+            .error-message {
+                color: #dc3545;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="index.html">Главная</a>
+        <div class="form-container">
+            <h2>Форма обратной связи</h2>
+            <form id="feedbackForm" novalidate>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя" required />
+                    <div id="nameError" class="error-message"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Введите email" required />
+                    <div id="emailError" class="error-message"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Сообщение</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Введите сообщение" required></textarea>
+                    <div id="messageError" class="error-message"></div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Отправить</button>
+                <div id="successMessage" class="alert alert-success d-none">
+                    Ваша заявка успешно отправлена и находится в обработке. Ожидайте email с подтверждением бронирования.
+                </div>
+            </form>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const nameField = document.getElementById('name');
+                const emailField = document.getElementById('email');
+                const messageField = document.getElementById('message');
+
+                const name = nameField.value.trim();
+                const email = emailField.value.trim();
+                const message = messageField.value.trim();
+
+                const nameError = document.getElementById('nameError');
+                const emailError = document.getElementById('emailError');
+                const messageError = document.getElementById('messageError');
+                const successMessage = document.getElementById('successMessage');
+
+                nameError.textContent = '';
+                emailError.textContent = '';
+                messageError.textContent = '';
+                successMessage.classList.add('d-none');
+
+                let isValid = true;
+
+                if (!name) {
+                    nameError.textContent = 'Поле обязательно для заполнения.';
+                    isValid = false;
+                }
+
+                if (!email) {
+                    emailError.textContent = 'Поле обязательно для заполнения.';
+                    isValid = false;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    emailError.textContent = 'Введите корректный email адрес.';
+                    isValid = false;
+                }
+
+                if (!message) {
+                    messageError.textContent = 'Поле обязательно для заполнения.';
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                successMessage.classList.remove('d-none');
+                successMessage.textContent = 'Ваша заявка успешно отправлена и находится в обработке. Ожидайте email с подтверждением бронирования.';
+
+                this.reset();
+            });
+        </script>
+    </body>
+</html>
